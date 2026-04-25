@@ -267,9 +267,9 @@ export function FoodVerificationSection() {
               <span
                 className="text-xs font-mono px-2 py-0.5 rounded-full"
                 style={{
-                  background: "rgba(0,212,255,0.08)",
-                  color: "var(--accent)",
-                  border: "1px solid rgba(0,212,255,0.2)",
+                  background: "rgba(0, 212, 255, 0.12)",
+                  color: "#00d4ff",
+                  border: "1px solid rgba(0, 212, 255, 0.24)",
                 }}
               >
                 multimodal
@@ -308,11 +308,11 @@ export function FoodVerificationSection() {
             {[
               { label: "food image", color: "#a78bfa" },
               { label: "→ embed", color: "var(--text-muted)" },
-              { label: "vector DB", color: "var(--accent)" },
+              { label: "vector DB", color: "#00d4ff" },
               { label: "←→", color: "var(--text-muted)" },
               { label: "eating video", color: "#fbbf24" },
               { label: "→ embed", color: "var(--text-muted)" },
-              { label: "vector DB", color: "var(--accent)" },
+              { label: "vector DB", color: "#00d4ff" },
               { label: "→", color: "var(--text-muted)" },
               { label: "Gemini RAG", color: "#34d399" },
               { label: "→ verdict", color: "var(--text-muted)" },
@@ -415,9 +415,9 @@ export function FoodVerificationSection() {
                     <div
                       className="w-6 h-6 rounded-full flex items-center justify-center text-xs flex-shrink-0"
                       style={{
-                        background: isDone ? "rgba(52,211,153,0.15)" : isActive ? "rgba(0,212,255,0.15)" : "var(--bg-raised)",
-                        border: `1px solid ${isDone ? "#34d399" : isActive ? "var(--accent)" : "var(--border)"}`,
-                        color: isDone ? "#34d399" : isActive ? "var(--accent)" : "var(--text-muted)",
+                        background: isDone ? "rgba(52,211,153,0.15)" : isActive ? "rgba(0, 212, 255, 0.18)" : "var(--bg-raised)",
+                        border: `1px solid ${isDone ? "#34d399" : isActive ? "#00d4ff" : "var(--border)"}`,
+                        color: isDone ? "#34d399" : isActive ? "#00d4ff" : "var(--text-muted)",
                       }}
                     >
                       {isDone ? "✓" : isActive ? (
@@ -425,7 +425,7 @@ export function FoodVerificationSection() {
                           animate={{ rotate: 360 }}
                           transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                           className="w-3 h-3 rounded-full border-2 border-t-transparent"
-                          style={{ borderColor: "var(--accent)", borderTopColor: "transparent" }}
+                          style={{ borderColor: "#00d4ff", borderTopColor: "transparent" }}
                         />
                       ) : String(i + 1)}
                     </div>
@@ -434,7 +434,7 @@ export function FoodVerificationSection() {
                         {step === "indexing" ? "Index both files with gemini-embedding-2" : "Gemini examines image + video"}
                       </p>
                       {isActive && (
-                        <p className="text-xs font-mono" style={{ color: "var(--accent)" }}>
+                        <p className="text-xs font-mono" style={{ color: "#00d4ff" }}>
                           {PHASE_LABELS[phase]}
                         </p>
                       )}

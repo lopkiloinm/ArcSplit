@@ -32,7 +32,7 @@ const NODES: PipelineNode[] = [
   { id: "video",    label: "Video",    sublabel: "input",           color: "#fbbf24", x: 80,  y: 200, shape: "circle" },
   { id: "img-emb",  label: "embed",    sublabel: "image-indexer",   color: "#a78bfa", x: 240, y: 80,  shape: "rounded" },
   { id: "vid-emb",  label: "embed",    sublabel: "video-indexer",   color: "#fbbf24", x: 240, y: 200, shape: "rounded" },
-  { id: "vector",   label: "vector",   sublabel: "store",           color: "var(--accent)", x: 400, y: 140, shape: "rounded" },
+  { id: "vector",   label: "vector",   sublabel: "store",           color: "#00d4ff", x: 400, y: 140, shape: "rounded" },
   { id: "gemini",   label: "RAG",      sublabel: "gemini-verifier", color: "#34d399", x: 560, y: 140, shape: "rounded" },
   { id: "verdict",  label: "verdict",  sublabel: "output",          color: "#34d399", x: 700, y: 140, shape: "circle" },
 ];
@@ -153,7 +153,7 @@ export function FoodPipelineGraph({
               <g key={edge.id}>
                 <motion.path
                   d={d} fill="none"
-                  stroke={isDone ? "#34d399" : isActive ? "var(--accent)" : "rgba(255,255,255,0.08)"}
+                  stroke={isDone ? "#34d399" : isActive ? "#00d4ff" : "rgba(255,255,255,0.08)"}
                   strokeWidth={isDone ? 2 : 1.5}
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={{ pathLength: 1, opacity: 1 }}
@@ -162,7 +162,7 @@ export function FoodPipelineGraph({
                 {/* Particle along edge — mirrors AstGraph */}
                 {isActive && animating && !shouldReduceMotion && (
                   <motion.circle
-                    r={3} fill="var(--accent)" opacity={0.8}
+                    r={3} fill="#00d4ff" opacity={0.8}
                     initial={{ offsetDistance: "0%", opacity: 0 }}
                     animate={{ offsetDistance: "100%", opacity: [0, 1, 1, 0] }}
                     transition={{ duration: 1.0, repeat: Infinity, repeatDelay: 0.4, ease: "easeInOut" }}
@@ -187,13 +187,13 @@ export function FoodPipelineGraph({
                   x={node.x - NODE_W / 2} y={node.y - NODE_H / 2}
                   width={NODE_W} height={NODE_H}
                   rx={isLiteral ? NODE_W / 2 : 12}
-                  fill={done ? `${color}15` : active ? `${color}12` : "rgba(255,255,255,0.04)"}
-                  stroke={done ? color : active ? color : "rgba(255,255,255,0.12)"}
+                  fill={isLiteral ? "rgba(255,255,255,0.04)" : `${color}15`}
+                  stroke={isLiteral ? "rgba(255,255,255,0.12)" : `${color}50`}
                   strokeWidth={active ? 2 : 1.5}
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{
                     opacity: 1,
-                    scale: active ? 1.12 : 1,
+                    scale: active ? 1.15 : 1,
                     boxShadow: active ? `0 0 0 2px ${color}, 0 0 20px ${color}60` : "none",
                   }}
                   transition={{ duration: shouldReduceMotion ? 0 : 0.3, scale: { type: "spring", stiffness: 300, damping: 20 } }}
@@ -204,7 +204,7 @@ export function FoodPipelineGraph({
                   x={node.x} y={node.y - 2}
                   textAnchor="middle" dominantBaseline="middle"
                   fontSize={10} fontWeight={600} fontFamily="var(--font-mono)"
-                  fill={done ? color : active ? color : "rgba(255,255,255,0.5)"}
+                  fill={isLiteral ? "var(--text-secondary)" : color}
                 >
                   {node.label}
                 </text>
@@ -212,7 +212,7 @@ export function FoodPipelineGraph({
                   x={node.x} y={node.y + 10}
                   textAnchor="middle" dominantBaseline="middle"
                   fontSize={8} fontFamily="var(--font-mono)"
-                  fill={done ? `${color}90` : "rgba(255,255,255,0.25)"}
+                  fill={isLiteral ? "rgba(255,255,255,0.25)" : `${color}90`}
                 >
                   {node.sublabel}
                 </text>
@@ -266,7 +266,7 @@ export function FoodPipelineGraph({
                   "index-video":   "#fbbf24",
                   "gemini-verify": "#34d399",
                 };
-                const color = serviceColor[s.step] ?? "var(--accent)";
+                const color = serviceColor[s.step] ?? "#00d4ff";
                 const symbol: Record<string, string> = {
                   "index-image":   "⊕",
                   "index-video":   "⊕",

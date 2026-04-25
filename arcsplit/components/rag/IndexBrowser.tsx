@@ -7,7 +7,7 @@ import type { IndexedRecord } from "@/lib/rag/types";
 const KIND_COLORS: Record<string, string> = {
   image: "#a78bfa",
   video: "#fbbf24",
-  text: "var(--accent)",
+  text: "#00d4ff",
   audio: "#34d399",
   pdf: "#f87171",
 };
@@ -84,9 +84,9 @@ export function IndexBrowser() {
             <span
               className="text-xs font-mono px-2 py-0.5 rounded-full"
               style={{
-                background: "rgba(0,212,255,0.08)",
-                color: "var(--accent)",
-                border: "1px solid rgba(0,212,255,0.2)",
+                background: "rgba(0, 212, 255, 0.12)",
+                color: "#00d4ff",
+                border: "1px solid rgba(0, 212, 255, 0.24)",
               }}
             >
               {records.length} records
@@ -129,7 +129,7 @@ export function IndexBrowser() {
                   disabled={searching || !query.trim()}
                   className="px-4 py-2 rounded-lg text-xs font-mono cursor-pointer disabled:opacity-40"
                   style={{
-                    background: "var(--accent)",
+                    background: "#00d4ff",
                     color: "#000",
                   }}
                 >

@@ -8,7 +8,7 @@ const STEPS = [
     title: "Quote the pipeline",
     body: "Before any execution, the router counts billable operations and computes max collateral. No surprises.",
     tag: "pre-flight quote",
-    color: "var(--accent)",
+    color: "#00d4ff",
   },
   {
     n: "02",
@@ -44,7 +44,7 @@ const PIPELINES = [
   {
     name: "Calculator",
     providers: ["add", "subtract", "multiply", "divide"],
-    color: "var(--accent)",
+    color: "#00d4ff",
   },
   {
     name: "Multimodal RAG",
@@ -67,7 +67,7 @@ export function HowItWorksSection() {
           viewport={{ once: true }}
           className="mb-16 text-center"
         >
-          <p className="text-xs font-mono mb-3" style={{ color: "var(--accent)" }}>
+          <p className="text-xs font-mono mb-3" style={{ color: "#00d4ff" }}>
             how it works
           </p>
           <h2 className="text-3xl font-bold mb-4">
@@ -126,7 +126,7 @@ export function HowItWorksSection() {
         >
           <div className="flex flex-col md:flex-row gap-8 items-start">
             <div className="flex-1">
-              <p className="text-xs font-mono mb-2" style={{ color: "var(--accent)" }}>
+              <p className="text-xs font-mono mb-2" style={{ color: "#00d4ff" }}>
                 any pipeline, same routing layer
               </p>
               <h3 className="text-base font-semibold mb-2">

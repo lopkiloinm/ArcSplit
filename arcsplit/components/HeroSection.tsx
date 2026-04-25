@@ -14,8 +14,8 @@ export function HeroSection({ onRunDemo }: HeroSectionProps) {
         className="absolute inset-0 opacity-[0.03]"
         style={{
           backgroundImage: `
-            linear-gradient(rgba(0,212,255,0.5) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,212,255,0.5) 1px, transparent 1px)
+            linear-gradient(rgba(0, 212, 255, 0.54) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 212, 255, 0.54) 1px, transparent 1px)
           `,
           backgroundSize: "60px 60px",
         }}
@@ -26,7 +26,7 @@ export function HeroSection({ onRunDemo }: HeroSectionProps) {
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(0, 212, 255, 0.10) 0%, transparent 70%)",
         }}
       />
 
@@ -38,12 +38,12 @@ export function HeroSection({ onRunDemo }: HeroSectionProps) {
           transition={{ duration: 0.5 }}
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono mb-8"
           style={{
-            background: "rgba(0,212,255,0.08)",
-            border: "1px solid rgba(0,212,255,0.2)",
-            color: "var(--accent)",
+            background: "rgba(0, 212, 255, 0.12)",
+            border: "1px solid rgba(0, 212, 255, 0.24)",
+            color: "#00d4ff",
           }}
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#00d4ff] animate-pulse" />
           x402 · Circle Nanopayments · ERC-8183
         </motion.div>
 
@@ -97,17 +97,17 @@ export function HeroSection({ onRunDemo }: HeroSectionProps) {
             onClick={onRunDemo}
             className="px-8 py-3.5 rounded-lg font-medium text-sm transition-all duration-200 cursor-pointer"
             style={{
-              background: "var(--accent)",
+              background: "#00d4ff",
               color: "#000",
-              boxShadow: "0 0 30px rgba(0,212,255,0.3)",
+              boxShadow: "0 0 30px rgba(0, 212, 255, 0.34)",
             }}
             onMouseEnter={(e) => {
               (e.target as HTMLButtonElement).style.boxShadow =
-                "0 0 50px rgba(0,212,255,0.5)";
+                "0 0 50px rgba(0, 212, 255, 0.54)";
             }}
             onMouseLeave={(e) => {
               (e.target as HTMLButtonElement).style.boxShadow =
-                "0 0 30px rgba(0,212,255,0.3)";
+                "0 0 30px rgba(0, 212, 255, 0.34)";
             }}
           >
             Run the demo →
@@ -133,7 +133,7 @@ export function HeroSection({ onRunDemo }: HeroSectionProps) {
           className="mt-16 flex flex-wrap justify-center gap-6"
         >
           {[
-            { label: "HTTP 402", sub: "x402 Protocol", color: "var(--accent)" },
+            { label: "HTTP 402", sub: "x402 Protocol", color: "#00d4ff" },
             {
               label: "EIP-3009",
               sub: "Circle Nanopayments",

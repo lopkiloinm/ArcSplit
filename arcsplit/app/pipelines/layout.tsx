@@ -29,8 +29,8 @@ export default function PipelinesLayout({ children }: { children: React.ReactNod
         <span style={{ color: "var(--border-mid)" }}>/</span>
 
         <div className="flex items-center gap-1">
-          <NavLink href="/pipelines/calculator" label="Calculator" badge="x402 · ERC-8183" color="var(--accent)" />
-          <NavLink href="/pipelines/food-verify" label="Media pipeline" badge="x402 · ERC-8183" color="#a78bfa" />
+          <NavLink href="/pipelines/calculator" label="Calculator" badge="x402 · ERC-8183" />
+          <NavLink href="/pipelines/food-verify" label="Media pipeline" badge="x402 · ERC-8183" />
         </div>
 
         <div className="flex-1" />
@@ -60,12 +60,10 @@ function NavLink({
   href,
   label,
   badge,
-  color,
 }: {
   href: string;
   label: string;
   badge: string;
-  color: string;
 }) {
   return (
     <Link
@@ -76,7 +74,7 @@ function NavLink({
       {label}
       <span
         className="px-1.5 py-0.5 rounded text-xs font-mono"
-        style={{ background: `${color}12`, color, fontSize: 10 }}
+        style={{ background: "rgba(0, 212, 255, 0.16)", color: "#00d4ff", fontSize: 10 }}
       >
         {badge}
       </span>

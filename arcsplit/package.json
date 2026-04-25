@@ -14,6 +14,8 @@
     "@x402/evm": "^2.10.0",
     "@x402/fetch": "^2.10.0",
     "framer-motion": "^12.38.0",
+    "lightningcss": "1.32.0",
+    "lightningcss-darwin-arm64": "1.32.0",
     "next": "16.2.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",

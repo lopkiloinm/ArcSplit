@@ -112,7 +112,7 @@ export function ReceiptDrawer({ result }: ReceiptDrawerProps) {
             value: Number.isInteger(result.result)
               ? String(result.result)
               : result.result.toFixed(8),
-            color: "var(--accent)",
+            color: "#00d4ff",
           },
           {
             label: "charged",
@@ -173,11 +173,11 @@ export function ReceiptDrawer({ result }: ReceiptDrawerProps) {
         <div
           className="mx-4 mb-4 rounded-lg p-3 text-xs font-mono space-y-2"
           style={{
-            background: "rgba(0,212,255,0.04)",
-            border: "1px solid rgba(0,212,255,0.12)",
+            background: "rgba(0, 212, 255, 0.06)",
+            border: "1px solid rgba(0, 212, 255, 0.16)",
           }}
         >
-          <p className="mb-2" style={{ color: "var(--accent)" }}>
+          <p className="mb-2" style={{ color: "#00d4ff" }}>
             On-chain · {onChain.network} (chain {onChain.chainId})
           </p>
           {[
@@ -191,7 +191,7 @@ export function ReceiptDrawer({ result }: ReceiptDrawerProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="truncate hover:underline"
-                style={{ color: "var(--accent)" }}
+                style={{ color: "#00d4ff" }}
               >
                 {addr.slice(0, 12)}…{addr.slice(-8)} ↗
               </a>
@@ -214,7 +214,7 @@ export function ReceiptDrawer({ result }: ReceiptDrawerProps) {
               target="_blank"
               rel="noopener noreferrer"
               className="underline"
-              style={{ color: "var(--accent)" }}
+              style={{ color: "#00d4ff" }}
             >
               arcscan.app ↗
             </a>

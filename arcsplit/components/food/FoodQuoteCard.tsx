@@ -62,8 +62,8 @@ export function FoodQuoteCard({ isLoading }: FoodQuoteCardProps) {
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               className="flex items-center gap-1.5"
             >
-              <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "var(--accent)" }} />
-              <span className="text-xs font-mono" style={{ color: "var(--accent)" }}>indexing</span>
+              <div className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#00d4ff" }} />
+              <span className="text-xs font-mono" style={{ color: "#00d4ff" }}>indexing</span>
             </motion.div>
           )}
         </AnimatePresence>
@@ -93,7 +93,7 @@ export function FoodQuoteCard({ isLoading }: FoodQuoteCardProps) {
                 <p className="text-xs font-mono mb-1" style={{ color: "var(--text-muted)" }}>
                   max collateral required
                 </p>
-                <p className="text-3xl font-mono font-bold" style={{ color: "var(--accent)" }}>
+                <p className="text-3xl font-mono font-bold" style={{ color: "#00d4ff" }}>
                   <AnimatedCounter value={TOTAL} decimals={6} suffix=" USDC" />
                 </p>
                 <p className="text-xs mt-1" style={{ color: "var(--text-muted)" }}>

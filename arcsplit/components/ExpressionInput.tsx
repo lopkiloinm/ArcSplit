@@ -40,7 +40,7 @@ export function ExpressionInput({
         <motion.div
           animate={{
             boxShadow: focused
-              ? "0 0 0 2px rgba(0,212,255,0.4)"
+              ? "0 0 0 2px rgba(0, 212, 255, 0.44)"
               : "0 0 0 1px rgba(255,255,255,0.07)",
           }}
           className="rounded-xl overflow-hidden"
@@ -118,14 +118,14 @@ export function ExpressionInput({
               color: "var(--text-secondary)",
             }}
             onMouseEnter={(e) => {
-              (e.target as HTMLButtonElement).style.borderColor =
-                "rgba(0,212,255,0.3)";
-              (e.target as HTMLButtonElement).style.color = "var(--accent)";
+              (e.currentTarget as HTMLButtonElement).style.borderColor =
+                "rgba(0, 212, 255, 0.34)";
+              (e.currentTarget as HTMLButtonElement).style.color = "#00d4ff";
             }}
             onMouseLeave={(e) => {
-              (e.target as HTMLButtonElement).style.borderColor =
+              (e.currentTarget as HTMLButtonElement).style.borderColor =
                 "var(--border)";
-              (e.target as HTMLButtonElement).style.color =
+              (e.currentTarget as HTMLButtonElement).style.color =
                 "var(--text-secondary)";
             }}
           >
@@ -160,12 +160,12 @@ export function ExpressionInput({
           disabled={isExecuting || !value.trim()}
           className="flex-1 py-3 rounded-lg text-sm font-medium transition-all duration-200 disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
           style={{
-            background: hasQuote ? "var(--accent)" : "var(--bg-raised)",
+            background: hasQuote ? "#00d4ff" : "var(--bg-raised)",
             border: hasQuote
               ? "none"
               : "1px solid var(--border-mid)",
             color: hasQuote ? "#000" : "var(--text-secondary)",
-            boxShadow: hasQuote ? "0 0 20px rgba(0,212,255,0.25)" : "none",
+            boxShadow: hasQuote ? "0 0 20px rgba(0, 212, 255, 0.38)" : "none",
           }}
         >
           {isExecuting ? (

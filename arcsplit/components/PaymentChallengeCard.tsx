@@ -93,7 +93,7 @@ export function PaymentChallengeCard({
               <span style={{ color: "var(--text-muted)", minWidth: 120 }}>{k}</span>
               <span
                 style={{
-                  color: k === "amount" ? "#fbbf24" : k.includes("Gateway") ? "var(--accent)" : "var(--text-secondary)",
+                  color: k === "amount" ? "#fbbf24" : k.includes("Gateway") ? "#00d4ff" : "var(--text-secondary)",
                   wordBreak: "break-all",
                 }}
               >
@@ -119,11 +119,11 @@ export function PaymentChallengeCard({
           <div
             className="rounded-lg p-3 text-xs font-mono"
             style={{
-              background: "rgba(0,212,255,0.05)",
-              border: "1px solid rgba(0,212,255,0.1)",
+              background: "rgba(0, 212, 255, 0.08)",
+              border: "1px solid rgba(0, 212, 255, 0.14)",
             }}
           >
-            <p className="mb-1" style={{ color: "var(--accent)" }}>
+            <p className="mb-1" style={{ color: "#00d4ff" }}>
               Signing wallet
             </p>
             <a

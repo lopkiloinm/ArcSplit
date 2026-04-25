@@ -264,7 +264,7 @@ export function FoodPipelineSection() {
         {/* Section header — mirrors DemoSection header exactly */}
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs font-mono mb-1" style={{ color: "#a78bfa" }}>
+            <p className="text-xs font-mono mb-1" style={{ color: "#00d4ff" }}>
               payment routing demo
             </p>
             <h2 className="text-2xl font-bold">Multimodal verification pipeline</h2>

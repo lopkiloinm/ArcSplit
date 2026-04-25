@@ -117,7 +117,7 @@ export function FoodDropZones({
       <motion.div
         animate={{
           boxShadow: canAct
-            ? "0 0 0 1px rgba(167,139,250,0.3)"
+            ? "0 0 0 1px rgba(0, 212, 255, 0.34)"
             : "0 0 0 1px rgba(255,255,255,0.07)",
         }}
         className="rounded-xl overflow-hidden"
@@ -198,8 +198,8 @@ export function FoodDropZones({
               color: "var(--text-secondary)",
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(167,139,250,0.3)";
-              (e.currentTarget as HTMLButtonElement).style.color = "#a78bfa";
+              (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(0, 212, 255, 0.34)";
+              (e.currentTarget as HTMLButtonElement).style.color = "#00d4ff";
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--border)";
@@ -249,10 +249,10 @@ export function FoodDropZones({
           disabled={isExecuting || !canAct || disabled}
           className="flex-1 py-3 rounded-lg text-sm font-medium transition-all duration-200 disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed"
           style={{
-            background: hasQuote ? "#a78bfa" : "var(--bg-raised)",
+            background: hasQuote ? "#00d4ff" : "var(--bg-raised)",
             border: hasQuote ? "none" : "1px solid var(--border-mid)",
-            color: hasQuote ? "#fff" : "var(--text-secondary)",
-            boxShadow: hasQuote ? "0 0 20px rgba(167,139,250,0.25)" : "none",
+            color: hasQuote ? "#000" : "var(--text-secondary)",
+            boxShadow: hasQuote ? "0 0 20px rgba(0, 212, 255, 0.38)" : "none",
           }}
         >
           {isExecuting ? (
@@ -271,7 +271,7 @@ export function FoodDropZones({
 function Spinner({ dark = false }: { dark?: boolean }) {
   return (
     <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none"
-      stroke={dark ? "#fff" : "currentColor"} strokeWidth={2}>
+      stroke={dark ? "#000" : "currentColor"} strokeWidth={2}>
       <circle cx="12" cy="12" r="10" strokeOpacity={0.25} />
       <path d="M12 2a10 10 0 0 1 10 10" />
     </svg>

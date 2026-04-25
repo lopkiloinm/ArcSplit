@@ -47,7 +47,7 @@ export function SettlementSplitView({
         <span className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>
           payment split
         </span>
-        <span className="text-xs font-mono" style={{ color: "var(--accent)" }}>
+        <span className="text-xs font-mono" style={{ color: "#00d4ff" }}>
           {payouts.length} providers
         </span>
       </div>
@@ -61,7 +61,7 @@ export function SettlementSplitView({
           <p className="text-xs font-mono mb-1" style={{ color: "var(--text-muted)" }}>
             total charged
           </p>
-          <p className="text-2xl font-mono font-bold" style={{ color: "var(--accent)" }}>
+          <p className="text-2xl font-mono font-bold" style={{ color: "#00d4ff" }}>
             <AnimatedCounter
               value={total}
               decimals={6}
@@ -76,7 +76,7 @@ export function SettlementSplitView({
           {payouts.map((payout, i) => {
             const amount = parseFloat(payout.amount);
             const pct = total > 0 ? (amount / total) * 100 : 0;
-            const color = OP_COLORS[payout.operator] ?? "var(--accent)";
+            const color = OP_COLORS[payout.operator] ?? "#00d4ff";
 
             return (
               <motion.div

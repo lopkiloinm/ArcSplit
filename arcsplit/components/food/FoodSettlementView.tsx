@@ -42,7 +42,7 @@ export function FoodSettlementView({
         <span className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>
           payment split
         </span>
-        <span className="text-xs font-mono" style={{ color: "var(--accent)" }}>
+        <span className="text-xs font-mono" style={{ color: "#00d4ff" }}>
           {payouts.length} providers
         </span>
       </div>
@@ -53,7 +53,7 @@ export function FoodSettlementView({
           <p className="text-xs font-mono mb-1" style={{ color: "var(--text-muted)" }}>
             total charged
           </p>
-          <p className="text-2xl font-mono font-bold" style={{ color: "var(--accent)" }}>
+          <p className="text-2xl font-mono font-bold" style={{ color: "#00d4ff" }}>
             <AnimatedCounter value={total} decimals={6} suffix=" USDC" duration={1200} />
           </p>
         </div>
@@ -63,7 +63,7 @@ export function FoodSettlementView({
           {payouts.map((payout, i) => {
             const amount = parseFloat(payout.amount);
             const pct = total > 0 ? (amount / total) * 100 : 0;
-            const color = PROVIDER_COLORS[payout.service] ?? "var(--accent)";
+            const color = PROVIDER_COLORS[payout.service] ?? "#00d4ff";
 
             return (
               <motion.div

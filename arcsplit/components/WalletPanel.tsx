@@ -105,7 +105,7 @@ export function WalletPanel() {
                 balance && parseFloat(balance.erc20Usdc) > 0
                   ? "var(--op-add)"
                   : loading
-                  ? "var(--accent)"
+                  ? "#00d4ff"
                   : "var(--text-muted)",
               boxShadow:
                 balance && parseFloat(balance.erc20Usdc) > 0
@@ -120,9 +120,9 @@ export function WalletPanel() {
             <span
               className="text-xs font-mono px-2 py-0.5 rounded-full"
               style={{
-                background: "rgba(0,212,255,0.08)",
-                color: "var(--accent)",
-                border: "1px solid rgba(0,212,255,0.2)",
+                background: "rgba(0, 212, 255, 0.12)",
+                color: "#00d4ff",
+                border: "1px solid rgba(0, 212, 255, 0.24)",
               }}
             >
               {balance.chain}
@@ -131,7 +131,7 @@ export function WalletPanel() {
         </div>
         <div className="flex items-center gap-3">
           {balance && (
-            <span className="text-xs font-mono" style={{ color: "var(--accent)" }}>
+            <span className="text-xs font-mono" style={{ color: "#00d4ff" }}>
               {parseFloat(balance.erc20Usdc).toFixed(4)} USDC
             </span>
           )}
@@ -188,7 +188,7 @@ export function WalletPanel() {
                         target="_blank"
                         rel="noopener noreferrer"
                         className="truncate max-w-[200px] hover:underline"
-                        style={{ color: "var(--accent)" }}
+                        style={{ color: "#00d4ff" }}
                       >
                         {balance.address.slice(0, 10)}…{balance.address.slice(-8)}
                       </a>
@@ -240,7 +240,7 @@ export function WalletPanel() {
                       </p>
                       <code
                         className="block mt-1 text-xs break-all"
-                        style={{ color: "var(--accent)" }}
+                        style={{ color: "#00d4ff" }}
                       >
                         {balance.address}
                       </code>
@@ -288,7 +288,7 @@ export function WalletPanel() {
                   </div>
 
                   {setupLoading && (
-                    <p className="text-xs font-mono text-center" style={{ color: "var(--accent)" }}>
+                    <p className="text-xs font-mono text-center" style={{ color: "#00d4ff" }}>
                       Broadcasting transaction to Arc Testnet…
                     </p>
                   )}
@@ -330,7 +330,7 @@ export function WalletPanel() {
                               target="_blank"
                               rel="noopener noreferrer"
                               className="block truncate hover:underline"
-                              style={{ color: "var(--accent)" }}
+                              style={{ color: "#00d4ff" }}
                             >
                               {tx.hash.slice(0, 20)}…{tx.hash.slice(-8)} ↗
                             </a>

@@ -50,9 +50,9 @@ export function QuoteCard({ quote, isLoading }: QuoteCardProps) {
             >
               <div
                 className="w-1.5 h-1.5 rounded-full animate-pulse"
-                style={{ background: "var(--accent)" }}
+                style={{ background: "#00d4ff" }}
               />
-              <span className="text-xs font-mono" style={{ color: "var(--accent)" }}>
+              <span className="text-xs font-mono" style={{ color: "#00d4ff" }}>
                 parsing
               </span>
             </motion.div>
@@ -111,7 +111,7 @@ export function QuoteCard({ quote, isLoading }: QuoteCardProps) {
                 <p className="text-xs font-mono mb-1" style={{ color: "var(--text-muted)" }}>
                   max collateral required
                 </p>
-                <p className="text-3xl font-mono font-bold" style={{ color: "var(--accent)" }}>
+                <p className="text-3xl font-mono font-bold" style={{ color: "#00d4ff" }}>
                   <AnimatedCounter
                     value={parseFloat(quote.maxCostUSDC)}
                     decimals={6}

@@ -11,7 +11,7 @@ const PIPELINES = [
     name: "Calculator pipeline",
     tagline: "Parse an expression into an AST. Pay per operator. Settle to each provider.",
     badges: ["x402 · HTTP 402", "ERC-8183 escrow", "Circle Nanopayments"],
-    color: "var(--accent)",
+    color: "#00d4ff",
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
         <rect x="4" y="2" width="16" height="20" rx="2" />
@@ -24,8 +24,8 @@ const PIPELINES = [
       "HTTP 402 → sign EIP-712 authorization",
       "Execute → split payment to each operator",
     ],
-    accent: "rgba(0,212,255,0.08)",
-    border: "rgba(0,212,255,0.2)",
+    surfaceTint: "rgba(0, 212, 255, 0.12)",
+    border: "rgba(0, 212, 255, 0.24)",
   },
   {
     href: "/pipelines/food-verify",
@@ -44,7 +44,7 @@ const PIPELINES = [
       "HTTP 402 → sign EIP-712 authorization",
       "RAG verifier runs → split payment to 3 providers",
     ],
-    accent: "rgba(167,139,250,0.08)",
+    surfaceTint: "rgba(167,139,250,0.08)",
     border: "rgba(167,139,250,0.2)",
   },
 ];
@@ -66,7 +66,7 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} className="mb-12 text-center">
-            <p className="text-xs font-mono mb-3" style={{ color: "var(--accent)" }}>
+            <p className="text-xs font-mono mb-3" style={{ color: "#00d4ff" }}>
               choose a pipeline
             </p>
             <h2 className="text-3xl font-bold mb-3">Two live demos</h2>
@@ -97,7 +97,7 @@ export default function Home() {
                     }}
                   >
                     {/* Card header */}
-                    <div className="p-6 pb-4" style={{ background: p.accent }}>
+                    <div className="p-6 pb-4" style={{ background: p.surfaceTint }}>
                       <div className="flex items-start justify-between mb-4">
                         <div className="w-12 h-12 rounded-xl flex items-center justify-center"
                           style={{ background: `${p.color}18`, color: p.color, border: `1px solid ${p.color}30` }}>
@@ -155,7 +155,7 @@ export default function Home() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
                 { label: "Payment", value: "x402 HTTP 402", color: "#fbbf24" },
-                { label: "Signing",  value: "EIP-712 offchain", color: "var(--accent)" },
+                { label: "Signing",  value: "EIP-712 offchain", color: "#00d4ff" },
                 { label: "Escrow",   value: "ERC-8183 jobs",    color: "#a78bfa" },
                 { label: "Settlement", value: "Circle Gateway", color: "#34d399" },
               ].map((item) => (
@@ -190,7 +190,7 @@ function Footer() {
             { label: "gemini-embedding-2", href: "https://cloud.google.com/vertex-ai/generative-ai/docs/embeddings/get-multimodal-embeddings" },
           ].map((link) => (
             <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer"
-              className="hover:text-[var(--accent)] transition-colors">
+              className="hover:text-[#00d4ff] transition-colors">
               {link.label}
             </a>
           ))}

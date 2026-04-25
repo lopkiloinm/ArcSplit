@@ -140,9 +140,9 @@ export function FoodReceiptDrawer({ result }: { result: FoodResult }) {
       {onChain && (
         <div
           className="mx-4 mb-4 rounded-lg p-3 text-xs font-mono space-y-2"
-          style={{ background: "rgba(0,212,255,0.04)", border: "1px solid rgba(0,212,255,0.12)" }}
+          style={{ background: "rgba(0, 212, 255, 0.06)", border: "1px solid rgba(0, 212, 255, 0.16)" }}
         >
-          <p className="mb-2" style={{ color: "var(--accent)" }}>
+          <p className="mb-2" style={{ color: "#00d4ff" }}>
             On-chain · {onChain.network} (chain {onChain.chainId})
           </p>
           {[
@@ -153,7 +153,7 @@ export function FoodReceiptDrawer({ result }: { result: FoodResult }) {
               <span style={{ color: "var(--text-muted)", minWidth: 60 }}>{label}</span>
               <a
                 href={url} target="_blank" rel="noopener noreferrer"
-                className="truncate hover:underline" style={{ color: "var(--accent)" }}
+                className="truncate hover:underline" style={{ color: "#00d4ff" }}
               >
                 {addr.slice(0, 12)}…{addr.slice(-8)} ↗
               </a>
@@ -171,7 +171,7 @@ export function FoodReceiptDrawer({ result }: { result: FoodResult }) {
             <a
               href={`${EXPLORER_BASE}/address/${onChain.gatewayAddress}`}
               target="_blank" rel="noopener noreferrer"
-              className="underline" style={{ color: "var(--accent)" }}
+              className="underline" style={{ color: "#00d4ff" }}
             >
               arcscan.app ↗
             </a>

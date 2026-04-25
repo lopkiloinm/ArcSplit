@@ -284,7 +284,7 @@ export function DemoSection() {
           <div>
             <p
               className="text-xs font-mono mb-1"
-              style={{ color: "var(--accent)" }}
+              style={{ color: "#00d4ff" }}
             >
               payment routing demo
             </p>

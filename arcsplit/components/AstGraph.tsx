@@ -240,7 +240,7 @@ export function AstGraph({
               <motion.circle
                 key={`particle-${edge.id}`}
                 r={3}
-                fill="var(--accent)"
+                fill="#00d4ff"
                 opacity={0.7}
                 initial={{ offsetDistance: "0%", opacity: 0 }}
                 animate={{ offsetDistance: "100%", opacity: [0, 1, 1, 0] }}
