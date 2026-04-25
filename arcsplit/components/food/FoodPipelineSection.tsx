@@ -269,7 +269,7 @@ export function FoodPipelineSection() {
             </p>
             <h2 className="text-2xl font-bold">Multimodal verification pipeline</h2>
             <p className="text-sm mt-1" style={{ color: "var(--text-secondary)" }}>
-              Each service is a billable provider. One payment in. Three providers paid out.
+              Gemini Embedding 2 powers media indexing. Each service is a billable provider. One payment in. Three providers paid out.
             </p>
           </div>
           {phase !== "idle" && (

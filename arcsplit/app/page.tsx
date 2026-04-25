@@ -29,8 +29,8 @@ const PIPELINES = [
   },
   {
     href: "/pipelines/food-verify",
-    name: "Media pipeline",
-    tagline: "Upload an image and a video. Three providers index, embed, and verify. One payment split three ways.",
+    name: "Media pipeline · Gemini Embedding 2",
+    tagline: "Upload an image and a video. Gemini Embedding 2 powers indexing before RAG verification and split settlement.",
     badges: ["x402 · HTTP 402", "ERC-8183 escrow", "Circle Nanopayments"],
     color: "#a78bfa",
     icon: (
@@ -40,7 +40,7 @@ const PIPELINES = [
     ),
     steps: [
       "Upload an image and a short video clip",
-      "Two indexers embed both into a shared vector space",
+      "Gemini Embedding 2 indexers embed both into a shared vector space",
       "HTTP 402 → sign EIP-712 authorization",
       "RAG verifier runs → split payment to 3 providers",
     ],
