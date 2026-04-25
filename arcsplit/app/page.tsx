@@ -29,21 +29,20 @@ const PIPELINES = [
   },
   {
     href: "/pipelines/food-verify",
-    name: "Food verification pipeline",
-    tagline: "Index a food image and eating video. Gemini RAG confirms consumption. Pay three providers.",
-    badges: ["gemini-embedding-2", "RAG · multimodal", "x402 · ERC-8183"],
+    name: "Media pipeline",
+    tagline: "Upload an image and a video. Three providers index, embed, and verify. One payment split three ways.",
+    badges: ["x402 · HTTP 402", "ERC-8183 escrow", "Circle Nanopayments"],
     color: "#a78bfa",
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
-        <path d="M8 12l3 3 5-5" />
+        <path d="M15 10l4.553-2.276A1 1 0 0121 8.723v6.554a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
       </svg>
     ),
     steps: [
-      "Upload food image + eating video",
-      "Both indexed via gemini-embedding-2",
+      "Upload an image and a short video clip",
+      "Two indexers embed both into a shared vector space",
       "HTTP 402 → sign EIP-712 authorization",
-      "Gemini RAG verifies → split to 3 providers",
+      "RAG verifier runs → split payment to 3 providers",
     ],
     accent: "rgba(167,139,250,0.08)",
     border: "rgba(167,139,250,0.2)",
@@ -181,7 +180,7 @@ function Footer() {
       <div className="max-w-4xl mx-auto space-y-4">
         <p className="text-sm font-bold gradient-text">ArcSplit</p>
         <p className="text-xs" style={{ color: "var(--text-muted)" }}>
-          Pay-per-use middleware on Arc · Multimodal RAG with Gemini
+          Pay-per-use middleware on Arc · x402 · ERC-8183 · Circle Gateway
         </p>
         <div className="flex justify-center flex-wrap gap-6 text-xs font-mono" style={{ color: "var(--text-muted)" }}>
           {[

@@ -80,10 +80,10 @@ export function HeroSection({ onRunDemo }: HeroSectionProps) {
           className="text-base max-w-2xl mx-auto mb-12 leading-relaxed"
           style={{ color: "var(--text-secondary)" }}
         >
-          ArcSplit is Stripe Connect for AI pipelines on Arc. A buyer pays once.
-          The payment is quoted, authorized, escrowed, and split across every
-          operator that ran — automatically, on-chain. This demo uses a
-          calculator expression as the pipeline.
+          ArcSplit is the payment routing layer for composable pipelines on Arc.
+          A buyer pays once. The payment is quoted, authorized, escrowed, and
+          split across every provider that ran — automatically, on-chain.
+          Two live demos: a calculator and a media verifier.
         </motion.p>
 
         {/* CTA */}

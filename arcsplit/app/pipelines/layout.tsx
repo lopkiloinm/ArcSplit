@@ -30,7 +30,7 @@ export default function PipelinesLayout({ children }: { children: React.ReactNod
 
         <div className="flex items-center gap-1">
           <NavLink href="/pipelines/calculator" label="Calculator" badge="x402 · ERC-8183" color="var(--accent)" />
-          <NavLink href="/pipelines/food-verify" label="Food Verify" badge="Gemini RAG" color="#a78bfa" />
+          <NavLink href="/pipelines/food-verify" label="Media pipeline" badge="x402 · ERC-8183" color="#a78bfa" />
         </div>
 
         <div className="flex-1" />
@@ -48,7 +48,10 @@ export default function PipelinesLayout({ children }: { children: React.ReactNod
         </Link>
       </nav>
 
-      {children}
+      {/* Main content — top border separates from nav */}
+      <main style={{ borderTop: "1px solid var(--border)" }}>
+        {children}
+      </main>
     </>
   );
 }

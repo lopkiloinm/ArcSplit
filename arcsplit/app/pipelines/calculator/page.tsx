@@ -7,9 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function CalculatorPipelinePage() {
-  return (
-    <main>
-      <DemoSection />
-    </main>
-  );
+  return <DemoSection />;
 }

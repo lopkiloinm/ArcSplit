@@ -35,9 +35,9 @@ export const FOOD_PIPELINE_PRICE = {
 // ─── Providers (parallel to OPERATOR_OWNERS in calculator) ───────────────────
 
 export const FOOD_PROVIDERS = [
-  { service: "image-indexer",  owner: "wallet_img_indexer",  amount: FOOD_PIPELINE_PRICE.indexImage },
-  { service: "video-indexer",  owner: "wallet_vid_indexer",  amount: FOOD_PIPELINE_PRICE.indexVideo },
-  { service: "gemini-verifier",owner: "wallet_gemini_rag",   amount: FOOD_PIPELINE_PRICE.verify },
+  { service: "image-indexer", owner: "wallet_img_indexer",  amount: FOOD_PIPELINE_PRICE.indexImage },
+  { service: "video-indexer", owner: "wallet_vid_indexer",  amount: FOOD_PIPELINE_PRICE.indexVideo },
+  { service: "rag-verifier",  owner: "wallet_rag_verifier", amount: FOOD_PIPELINE_PRICE.verify },
 ] as const;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────

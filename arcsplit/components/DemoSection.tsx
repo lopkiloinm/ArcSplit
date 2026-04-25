@@ -277,7 +277,6 @@ export function DemoSection() {
     <section
       id="demo"
       className="py-16 px-6"
-      style={{ borderTop: "1px solid var(--border)" }}
     >
       <div className="max-w-6xl mx-auto space-y-8">
         {/* Section header */}
@@ -287,9 +286,12 @@ export function DemoSection() {
               className="text-xs font-mono mb-1"
               style={{ color: "var(--accent)" }}
             >
-              interactive demo
+              payment routing demo
             </p>
             <h2 className="text-2xl font-bold">Calculator pipeline</h2>
+            <p className="text-sm mt-1" style={{ color: "var(--text-secondary)" }}>
+              Each operator is a billable provider. One payment in. Four providers paid out.
+            </p>
           </div>
           {phase !== "idle" && (
             <button
