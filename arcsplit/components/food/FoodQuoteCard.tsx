@@ -13,7 +13,7 @@ const SERVICES = [
     color: "#a78bfa",
     symbol: "⊕",
     amount: 0.000002,
-    desc: "embedding · image",
+    desc: "Gemini Embedding 2",
   },
   {
     key: "video-indexer",
@@ -22,7 +22,7 @@ const SERVICES = [
     color: "#fbbf24",
     symbol: "⊕",
     amount: 0.000003,
-    desc: "embedding · video",
+    desc: "Gemini Embedding 2",
   },
   {
     key: "rag-verifier",

@@ -2,92 +2,152 @@
 
 **One payment in. Every component paid out.**
 
-ArcSplit is a full-stack proof-of-concept for fully collateralized, pay-per-use calculator middleware built on three open protocols:
+---
 
-| Protocol | Role in ArcSplit |
+## The problem
+
+AI pipelines are built from many independent components — retrievers, models, rerankers, verifiers — each owned by a different person or team. Today there is no standard way to route a single buyer payment across all of them. Providers either go unpaid, or the pipeline owner takes everything and redistributes manually.
+
+## The solution
+
+ArcSplit is a payment routing layer for composable pipelines. A buyer pays once. The payment is quoted before execution, authorized offchain with zero gas, escrowed on-chain, and split to every provider that ran — automatically, based on actual usage.
+
+It is built on three open protocols that together cover the full payment lifecycle:
+
+| Protocol | Role |
 |---|---|
-| [x402 / HTTP 402](https://docs.cdp.coinbase.com/x402/core-concepts/http-402) | Payment challenge/response on `/api/calc` |
-| [Circle Gateway Nanopayments](https://developers.circle.com/gateway/nanopayments) | EIP-3009 offchain authorization + batched settlement |
-| [ERC-8183 Agentic Commerce](https://eips.ethereum.org/EIPS/eip-8183) | Job escrow state machine (Open → Funded → Submitted → Completed) |
+| [x402 / HTTP 402](https://docs.cdp.coinbase.com/x402/core-concepts/http-402) | Machine-readable payment challenge on every gated API call |
+| [Circle Gateway Nanopayments](https://developers.circle.com/gateway/nanopayments) | EIP-3009 offchain authorization + batched USDC settlement on Arc Testnet |
+| [ERC-8183 Agentic Commerce](https://eips.ethereum.org/EIPS/eip-8183) | Job escrow state machine: Open → Funded → Submitted → Completed |
 
-The demo pipeline is a calculator expression with parentheses and operator precedence. Each operator type (`add`, `subtract`, `multiply`, `divide`) is a billable component with its own owner wallet and payout share.
+## The pitch
+
+ArcSplit is Stripe Connect for AI pipelines. Any pipeline — a calculator, a RAG stack, a video analysis workflow — can register its component providers and their wallet addresses. ArcSplit handles the rest: quoting, escrow, execution gating, and split settlement. The demos are examples. The routing layer is the product.
 
 ---
 
-## Quick start
+## Live demos
+
+Two working pipelines, both running the same payment infrastructure:
+
+### Calculator pipeline (`/pipelines/calculator`)
+Parses a math expression into an AST. Each operator (`add`, `subtract`, `multiply`, `divide`) is a billable provider with its own wallet. The payment is split per operator executed.
+
+### Media pipeline (`/pipelines/food-verify`)
+Uploads an image and a video. **Gemini Embedding 2** indexes both into a shared multimodal vector space. A RAG verifier then confirms whether the content matches. Three providers are paid: `image-indexer`, `video-indexer`, `rag-verifier`.
+
+---
+
+## Developer setup
+
+### Prerequisites
+
+- Node.js 18+
+- A Gemini API key (for the media pipeline)
+- An Arc Testnet wallet funded with USDC (for real on-chain payments)
+
+### 1. Install
 
 ```bash
 cd arcsplit
 npm install
+```
+
+### 2. Configure environment
+
+```bash
+cp .env.example .env.local
+```
+
+Edit `.env.local`:
+
+```env
+# Wallet mnemonic — generate with viem, fund at https://faucet.circle.com/
+OWS_MNEMONIC=your twelve word mnemonic phrase here
+
+# Gemini API key — https://aistudio.google.com/app/apikey
+GEMINI_API_KEY=your_key_here
+
+# Generation model
+GEMINI_GENERATION_MODEL=gemini-2.0-flash
+
+# Embedding dimensions (768 | 1536 | 3072)
+EMBEDDING_DIM=768
+```
+
+### 3. Fund the wallet (for real on-chain payments)
+
+```bash
+# Generate a wallet and save the mnemonic to .env.local
+node --input-type=module -e "
+import { generateMnemonic, english, mnemonicToAccount } from 'viem/accounts';
+import fs from 'fs';
+const m = generateMnemonic(english);
+fs.appendFileSync('.env.local', 'OWS_MNEMONIC=' + m + '\n');
+console.log('Address:', mnemonicToAccount(m).address);
+"
+
+# Fund it at https://faucet.circle.com/ — select Arc Testnet, send 20 USDC
+
+# Approve + deposit into Circle Gateway
+node ../nanopayment-x402/scripts/setup.mjs all
+```
+
+### 4. Run
+
+```bash
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
 
+> **Without a wallet:** the calculator pipeline still runs in demo mode with mocked signatures. The media pipeline requires a real `GEMINI_API_KEY` to call Gemini Embedding 2.
+
 ---
 
-## How the demo maps to each protocol
+## How the payment flow works
 
-### x402 / HTTP 402
+Every gated API call follows the same five steps regardless of pipeline:
 
-`POST /api/calc` without a payment authorization returns:
+```
+1. Quote    — count billable operations, compute max collateral
+2. 402      — server returns HTTP 402 with x402 payment details
+3. Sign     — buyer signs EIP-3009 authorization offchain (zero gas)
+4. Escrow   — job moves Open → Funded → Submitted → Completed (ERC-8183)
+5. Split    — post-complete hook distributes escrow to each provider
+```
 
-```http
-HTTP/1.1 402 Payment Required
-X-Payment-Required: true
-X-Payment-Amount: 0.000004
-X-Payment-Asset: USDC
-X-Payment-Network: arc
+### x402 challenge shape
 
+```json
 {
   "error": "payment_required",
   "x402": {
     "scheme": "exact",
-    "network": "arc",
-    "asset": "USDC",
+    "network": "eip155:5042002",
+    "asset": "0x3600000000000000000000000000000000000000",
     "amount": "0.000004",
-    "payTo": "gateway:arcsplit-demo-seller",
-    "jobId": "job_...",
-    "resource": "/api/calc"
+    "payTo": "0x0077777d7eba4688bdef3e311b846f25870a19b9",
+    "jobId": "job_abc123",
+    "resource": "/api/calc",
+    "extra": {
+      "name": "GatewayWalletBatched",
+      "version": "1",
+      "verifyingContract": "0x0077777d7eba4688bdef3e311b846f25870a19b9"
+    }
   }
 }
 ```
 
-The client reads this machine-readable challenge, signs an authorization, and retries. This is the core x402 flow: HTTP 402 signals payment is required and communicates all details needed to complete it programmatically.
-
-### Circle Gateway Nanopayments
-
-The demo simulates the full Circle Nanopayments flow:
-
-1. Buyer requests `/api/calc` → receives 402
-2. Buyer signs an EIP-3009 payment authorization (simulated in demo mode)
-3. Buyer retries with `paymentAuthorization` in the request body
-4. Server verifies the authorization (simulated) and serves the resource
-5. Gateway would batch the authorization for onchain settlement (mocked as `gatewayBatchId`)
-
-In production, replace `simulateEIP3009Verification()` in `/app/api/pay/route.ts` with real EIP-712 signature recovery and Circle Gateway API calls.
-
-### ERC-8183 Job Escrow
-
-Every execution creates a job that follows the ERC-8183 state machine:
+### ERC-8183 state machine
 
 ```
 Open → Funded → Submitted → Completed
+         ↓           ↓
+      Rejected    Rejected
 ```
 
-The backend implements all core ERC-8183 functions in `lib/jobStore.ts`:
-
-| ERC-8183 function | ArcSplit implementation |
-|---|---|
-| `createJob` | Creates job in Open state |
-| `setBudget` | Sets max cost from quote |
-| `fund` | Verifies EIP-3009 auth, moves to Funded |
-| `submit` | Stores execution result, moves to Submitted |
-| `complete` | Evaluator attests, triggers split hook, moves to Completed |
-| `reject` | Refunds escrow to client |
-| `claimRefund` | Handles expired jobs |
-
-The post-complete payment split is modeled after ERC-8183's optional `IACPHook.afterComplete()` — each operator provider receives their share based on actual usage.
+Implemented in `lib/jobStore.ts`. In production, replace with smart contract calls via viem.
 
 ---
 
@@ -96,67 +156,106 @@ The post-complete payment split is modeled after ERC-8183's optional `IACPHook.a
 | Route | Method | Description |
 |---|---|---|
 | `/api/quote` | POST | Parse expression, build AST, return pricing quote |
-| `/api/calc` | POST | Execute with 402 challenge/response flow |
-| `/api/pay` | POST | Verify EIP-3009 authorization, fund job |
-| `/api/job/:jobId` | GET | Full job state, transitions, payouts |
+| `/api/calc` | POST | Calculator pipeline — x402 gated |
+| `/api/food/verify` | POST | Media pipeline — x402 gated, multipart |
+| `/api/pay` | POST | Sign EIP-3009 authorization (stateless) |
+| `/api/wallet/balance` | GET | Live Arc Testnet wallet balance |
+| `/api/wallet/setup` | POST | Approve + deposit into Circle Gateway |
+| `/api/rag/index/media` | POST | Index image or video with Gemini Embedding 2 |
+| `/api/rag/search` | POST/GET | Semantic search across indexed records |
+| `/api/job/:jobId` | GET | Full ERC-8183 job state |
 | `/api/health` | GET | Health check |
 
 ---
 
-## Architecture
+## Project structure
 
 ```
 arcsplit/
 ├── app/
-│   ├── api/
-│   │   ├── quote/route.ts      # POST /api/quote
-│   │   ├── calc/route.ts       # POST /api/calc (x402 flow)
-│   │   ├── pay/route.ts        # POST /api/pay (EIP-3009)
-│   │   ├── job/[jobId]/route.ts # GET /api/job/:id
-│   │   └── health/route.ts
-│   ├── page.tsx                # Main page
-│   ├── layout.tsx
-│   └── globals.css
+│   ├── page.tsx                    # Landing page
+│   ├── pipelines/
+│   │   ├── layout.tsx              # Shared nav
+│   │   ├── calculator/page.tsx     # Calculator pipeline route
+│   │   └── food-verify/page.tsx    # Media pipeline route
+│   └── api/
+│       ├── calc/                   # Calculator x402 endpoint
+│       ├── food/verify/            # Media pipeline x402 endpoint
+│       ├── pay/                    # EIP-3009 signing (shared)
+│       ├── quote/                  # Pre-flight quote
+│       ├── rag/                    # Gemini Embedding 2 indexing + search
+│       └── wallet/                 # Arc Testnet wallet management
 ├── components/
-│   ├── HeroSection.tsx
-│   ├── HowItWorksSection.tsx
-│   ├── DemoSection.tsx         # Main orchestrator
-│   ├── ExpressionInput.tsx
-│   ├── QuoteCard.tsx
-│   ├── AstGraph.tsx            # SVG tree + execution animation
-│   ├── PaymentChallengeCard.tsx # 402 challenge UI
-│   ├── ExecutionTimeline.tsx   # ERC-8183 state machine UI
-│   ├── SettlementSplitView.tsx # Payment split visualization
-│   ├── ReceiptDrawer.tsx       # Final receipt + JSON log
-│   └── AnimatedCounter.tsx
+│   ├── DemoSection.tsx             # Calculator pipeline orchestrator
+│   ├── food/                       # Media pipeline components
+│   │   ├── FoodPipelineSection.tsx # Media pipeline orchestrator
+│   │   ├── FoodDropZones.tsx       # File upload inputs
+│   │   ├── FoodQuoteCard.tsx       # Provider breakdown quote
+│   │   ├── FoodPipelineGraph.tsx   # Animated SVG pipeline graph
+│   │   ├── FoodSettlementView.tsx  # Payment split visualization
+│   │   └── FoodReceiptDrawer.tsx   # Settlement receipt
+│   ├── AstGraph.tsx                # AST visualization (calculator)
+│   ├── ExecutionTimeline.tsx       # ERC-8183 lifecycle (shared)
+│   ├── PaymentChallengeCard.tsx    # 402 challenge UI (shared)
+│   ├── SettlementSplitView.tsx     # Payment split (calculator)
+│   ├── ReceiptDrawer.tsx           # Receipt (calculator)
+│   └── WalletPanel.tsx             # Live wallet balance
 └── lib/
-    ├── types.ts                # All shared types
-    ├── parser.ts               # Recursive descent parser (no eval)
-    ├── executor.ts             # AST evaluator + trace emitter
-    └── jobStore.ts             # ERC-8183 job lifecycle (in-memory)
+    ├── types.ts                    # Shared types
+    ├── parser.ts                   # Recursive descent expression parser
+    ├── executor.ts                 # AST evaluator + execution trace
+    ├── jobStore.ts                 # ERC-8183 in-memory job store
+    ├── wallet.ts                   # viem wallet + EIP-712 signing
+    └── rag/
+        ├── gemini.ts               # Gemini Embedding 2 + RAG helpers
+        ├── vector-store.ts         # Cosine similarity search
+        └── storage.ts              # File upload storage
 ```
 
 ---
 
-## Demo mode vs production
+## Chain details
 
-All payment logic is simulated. To connect real integrations:
-
-1. **x402**: Replace the 402 response headers with a real x402 facilitator SDK call
-2. **Circle Gateway**: Replace `simulateEIP3009Verification()` with `ethers.verifyTypedData()` + Circle Gateway API
-3. **ERC-8183**: Replace `jobStore.ts` in-memory store with smart contract calls via viem/ethers
-
-The types, state machine, and API shapes are production-ready.
+| Item | Value |
+|---|---|
+| Chain | Arc Testnet (chain ID `5042002`) |
+| RPC | `https://rpc.testnet.arc.network` |
+| Explorer | `https://testnet.arcscan.app` |
+| USDC Token | `0x3600000000000000000000000000000000000000` |
+| Circle Gateway | `0x0077777d7eba4688bdef3e311b846f25870a19b9` |
+| Faucet | `https://faucet.circle.com/` (select Arc Testnet) |
 
 ---
 
-## Operator owner registry
+## Provider registries
 
-| Operator | Owner wallet | Unit price |
+**Calculator pipeline**
+
+| Operator | Wallet | Price |
 |---|---|---|
 | `add` | `wallet_add_demo` | 0.000001 USDC |
 | `subtract` | `wallet_sub_demo` | 0.000001 USDC |
 | `multiply` | `wallet_mul_demo` | 0.000001 USDC |
 | `divide` | `wallet_div_demo` | 0.000001 USDC |
 
-In production, this registry would be an on-chain contract mapping operator types to provider addresses.
+**Media pipeline**
+
+| Service | Wallet | Price |
+|---|---|---|
+| `image-indexer` | `wallet_img_indexer` | 0.000002 USDC |
+| `video-indexer` | `wallet_vid_indexer` | 0.000003 USDC |
+| `rag-verifier` | `wallet_rag_verifier` | 0.000005 USDC |
+
+In production, this registry would be an on-chain contract.
+
+---
+
+## Production upgrade path
+
+| Component | Current | Production |
+|---|---|---|
+| Job store | In-memory (`lib/jobStore.ts`) | Smart contract via viem |
+| Vector store | `data/vector-store.json` | pgvector / Qdrant / Pinecone |
+| Payment verification | Simulated | Real EIP-712 recovery + Circle Gateway API |
+| Provider registry | Hardcoded | On-chain registry contract |
+| File storage | Local `data/uploads/` | S3 / R2 with signed URLs |

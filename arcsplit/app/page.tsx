@@ -67,12 +67,13 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }} className="mb-12 text-center">
             <p className="text-xs font-mono mb-3" style={{ color: "#00d4ff" }}>
-              choose a pipeline
+              live on Arc testnet
             </p>
-            <h2 className="text-3xl font-bold mb-3">Two live demos</h2>
+            <h2 className="text-3xl font-bold mb-3">Two working pipelines</h2>
             <p className="text-sm max-w-xl mx-auto" style={{ color: "var(--text-secondary)" }}>
-              Each pipeline is a separate route with its own payment flow, execution graph,
-              ERC-8183 lifecycle, and settlement receipt.
+              Each pipeline is a real payment graph — its own contributors, its own
+              execution flow, its own ERC-8183 escrow lifecycle, and a settlement
+              receipt showing exactly who got paid and how much.
             </p>
           </motion.div>
 
@@ -179,8 +180,9 @@ function Footer() {
     <footer className="py-12 px-6 text-center" style={{ borderTop: "1px solid var(--border)" }}>
       <div className="max-w-4xl mx-auto space-y-4">
         <p className="text-sm font-bold gradient-text">ArcSplit</p>
-        <p className="text-xs" style={{ color: "var(--text-muted)" }}>
-          Pay-per-use middleware on Arc · x402 · ERC-8183 · Circle Gateway
+        <p className="text-xs max-w-sm mx-auto leading-relaxed" style={{ color: "var(--text-muted)" }}>
+          Ownership infrastructure for community-made AI and creative workflows.
+          Every use routes value back to the people who built the pieces.
         </p>
         <div className="flex justify-center flex-wrap gap-6 text-xs font-mono" style={{ color: "var(--text-muted)" }}>
           {[

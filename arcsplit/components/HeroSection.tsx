@@ -23,10 +23,10 @@ export function HeroSection({ onRunDemo }: HeroSectionProps) {
 
       {/* Radial glow */}
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(0, 212, 255, 0.10) 0%, transparent 70%)",
+            "radial-gradient(circle, rgba(0, 212, 255, 0.08) 0%, transparent 70%)",
         }}
       />
 
@@ -38,13 +38,13 @@ export function HeroSection({ onRunDemo }: HeroSectionProps) {
           transition={{ duration: 0.5 }}
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono mb-8"
           style={{
-            background: "rgba(0, 212, 255, 0.12)",
-            border: "1px solid rgba(0, 212, 255, 0.24)",
+            background: "rgba(0, 212, 255, 0.10)",
+            border: "1px solid rgba(0, 212, 255, 0.22)",
             color: "#00d4ff",
           }}
         >
           <span className="w-1.5 h-1.5 rounded-full bg-[#00d4ff] animate-pulse" />
-          x402 · Circle Nanopayments · ERC-8183
+          ownership infrastructure · community-built · community-paid
         </motion.div>
 
         {/* Wordmark */}
@@ -52,23 +52,23 @@ export function HeroSection({ onRunDemo }: HeroSectionProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-7xl md:text-8xl font-bold tracking-tight mb-4"
+          className="text-7xl md:text-8xl font-bold tracking-tight mb-6"
         >
           <span className="gradient-text">Arc</span>
           <span style={{ color: "var(--text-primary)" }}>Split</span>
         </motion.h1>
 
-        {/* Tagline */}
+        {/* Primary headline */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-2xl md:text-3xl font-light mb-6"
+          className="text-2xl md:text-3xl font-light mb-5 leading-snug"
           style={{ color: "var(--text-secondary)" }}
         >
-          One payment in.{" "}
+          Pay the people{" "}
           <span style={{ color: "var(--text-primary)" }}>
-            Every component paid out.
+            behind the workflow.
           </span>
         </motion.p>
 
@@ -80,10 +80,10 @@ export function HeroSection({ onRunDemo }: HeroSectionProps) {
           className="text-base max-w-2xl mx-auto mb-12 leading-relaxed"
           style={{ color: "var(--text-secondary)" }}
         >
-          ArcSplit is the payment routing layer for composable pipelines on Arc.
-          A buyer pays once. The payment is quoted, authorized, escrowed, and
-          split across every provider that ran — automatically, on-chain.
-          Two live demos: a calculator and a media verifier.
+          ArcSplit lets every community-made component in an AI or creative
+          workflow — LoRAs, tools, assets, extensions, datasets, automations,
+          and models — earn money directly when it is used. One payment in.
+          Every contributor paid out, automatically and peer to peer.
         </motion.p>
 
         {/* CTA */}
@@ -110,10 +110,10 @@ export function HeroSection({ onRunDemo }: HeroSectionProps) {
                 "0 0 30px rgba(0, 212, 255, 0.34)";
             }}
           >
-            Run the demo →
+            See it live →
           </button>
           <a
-            href="#how-it-works"
+            href="#vision"
             className="px-8 py-3.5 rounded-lg font-medium text-sm transition-all duration-200"
             style={{
               background: "var(--bg-raised)",
@@ -121,38 +121,28 @@ export function HeroSection({ onRunDemo }: HeroSectionProps) {
               color: "var(--text-secondary)",
             }}
           >
-            How it works
+            Why it matters
           </a>
         </motion.div>
 
-        {/* Protocol badges */}
+        {/* Tagline trio */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.7 }}
-          className="mt-16 flex flex-wrap justify-center gap-6"
+          className="mt-16 flex flex-wrap justify-center gap-8"
         >
           {[
-            { label: "HTTP 402", sub: "x402 Protocol", color: "#00d4ff" },
-            {
-              label: "EIP-3009",
-              sub: "Circle Nanopayments",
-              color: "#a78bfa",
-            },
-            { label: "ERC-8183", sub: "Job Escrow", color: "#34d399" },
-          ].map((badge) => (
-            <div
-              key={badge.label}
-              className="flex flex-col items-center gap-1"
-            >
-              <span
-                className="text-xs font-mono font-semibold"
-                style={{ color: badge.color }}
-              >
-                {badge.label}
+            { label: "Community-built", sub: "open components, open workflows" },
+            { label: "Community-owned", sub: "ownership travels with the piece" },
+            { label: "Community-paid",  sub: "per-use, peer to peer, no platform cut" },
+          ].map((item) => (
+            <div key={item.label} className="flex flex-col items-center gap-1">
+              <span className="text-xs font-mono font-semibold" style={{ color: "#00d4ff" }}>
+                {item.label}
               </span>
               <span className="text-xs" style={{ color: "var(--text-muted)" }}>
-                {badge.sub}
+                {item.sub}
               </span>
             </div>
           ))}

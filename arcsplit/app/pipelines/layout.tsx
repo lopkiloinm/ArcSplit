@@ -18,6 +18,7 @@ export default function PipelinesLayout({ children }: { children: React.ReactNod
           borderBottom: "1px solid var(--border)",
         }}
       >
+        {/* Wordmark */}
         <Link
           href="/"
           className="flex items-center gap-2 text-sm font-bold transition-opacity hover:opacity-70"
@@ -28,9 +29,18 @@ export default function PipelinesLayout({ children }: { children: React.ReactNod
 
         <span style={{ color: "var(--border-mid)" }}>/</span>
 
+        {/* Pipeline links — both badges use the same muted style, no tint */}
         <div className="flex items-center gap-1">
-          <NavLink href="/pipelines/calculator" label="Calculator" badge="x402 · ERC-8183" />
-          <NavLink href="/pipelines/food-verify" label="Media pipeline" badge="x402 · ERC-8183" />
+          <NavLink
+            href="/pipelines/calculator"
+            label="Calculator"
+            badge="x402 · ERC-8183"
+          />
+          <NavLink
+            href="/pipelines/food-verify"
+            label="Media pipeline"
+            badge="Gemini Embedding 2"
+          />
         </div>
 
         <div className="flex-1" />
@@ -48,7 +58,7 @@ export default function PipelinesLayout({ children }: { children: React.ReactNod
         </Link>
       </nav>
 
-      {/* Main content — top border separates from nav */}
+      {/* Main content */}
       <main style={{ borderTop: "1px solid var(--border)" }}>
         {children}
       </main>
@@ -56,25 +66,22 @@ export default function PipelinesLayout({ children }: { children: React.ReactNod
   );
 }
 
-function NavLink({
-  href,
-  label,
-  badge,
-}: {
-  href: string;
-  label: string;
-  badge: string;
-}) {
+function NavLink({ href, label, badge }: { href: string; label: string; badge: string }) {
   return (
     <Link
       href={href}
-      className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
+      className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-all hover:opacity-80"
       style={{ color: "var(--text-secondary)" }}
     >
       {label}
+      {/* Badge: no background tint — just a subtle border so both look identical */}
       <span
         className="px-1.5 py-0.5 rounded text-xs font-mono"
-        style={{ background: "rgba(0, 212, 255, 0.16)", color: "#00d4ff", fontSize: 10 }}
+        style={{
+          border: "1px solid var(--border-mid)",
+          color: "var(--text-muted)",
+          fontSize: 10,
+        }}
       >
         {badge}
       </span>
