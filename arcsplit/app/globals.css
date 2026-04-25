@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+/* ─── ArcSplit Design Tokens ─────────────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --bg-base:    #0a0a0f;
+  --bg-surface: #111118;
+  --bg-panel:   #16161f;
+  --bg-raised:  #1c1c28;
+
+  /* Borders */
+  --border:     rgba(255,255,255,0.07);
+  --border-mid: rgba(255,255,255,0.12);
+
+  /* Accent — electric cyan */
+  --accent:     #00d4ff;
+  --accent-dim: rgba(0, 212, 255, 0.15);
+  --accent-glow:rgba(0, 212, 255, 0.35);
+
+  /* Operator colors */
+  --op-add:      #34d399;  /* emerald */
+  --op-subtract: #f87171;  /* red */
+  --op-multiply: #a78bfa;  /* violet */
+  --op-divide:   #fbbf24;  /* amber */
+
+  /* Status colors */
+  --status-open:      #6b7280;
+  --status-funded:    #3b82f6;
+  --status-submitted: #a78bfa;
+  --status-completed: #34d399;
+  --status-rejected:  #f87171;
+  --status-expired:   #6b7280;
+
+  /* Text */
+  --text-primary:   #e8e8f0;
+  --text-secondary: #8888a0;
+  --text-muted:     #4a4a60;
+
+  /* Fonts */
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), "Fira Code", monospace;
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-surface); }
+::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* ─── Glass panel utility ────────────────────────────────────────────────── */
+.glass {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-raised {
+  background: var(--bg-raised);
+  border: 1px solid var(--border-mid);
+}
+
+/* ─── Accent glow ────────────────────────────────────────────────────────── */
+.glow-accent {
+  box-shadow: 0 0 20px var(--accent-glow), 0 0 60px rgba(0,212,255,0.1);
+}
+
+/* ─── Operator node colors ───────────────────────────────────────────────── */
+.op-add      { color: var(--op-add);      border-color: var(--op-add); }
+.op-subtract { color: var(--op-subtract); border-color: var(--op-subtract); }
+.op-multiply { color: var(--op-multiply); border-color: var(--op-multiply); }
+.op-divide   { color: var(--op-divide);   border-color: var(--op-divide); }
+
+/* ─── Animated gradient text ─────────────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent) 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Reduced motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Code / mono ────────────────────────────────────────────────────────── */
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
+/* ─── Pulse animation for active nodes ──────────────────────────────────── */
+@keyframes node-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,212,255,0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(0,212,255,0); }
+}
+
+.node-pulse {
+  animation: node-pulse 1s ease-in-out infinite;
+}
+
+/* ─── Particle travel animation ──────────────────────────────────────────── */
+@keyframes particle-travel {
+  0%   { offset-distance: 0%; opacity: 1; }
+  90%  { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+/* ─── Counter animation ──────────────────────────────────────────────────── */
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.count-up {
+  animation: count-up 0.3s ease-out forwards;
+}

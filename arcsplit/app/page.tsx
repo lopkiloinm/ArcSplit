@@ -1,0 +1,202 @@
+"use client";
+
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { HeroSection } from "@/components/HeroSection";
+import { HowItWorksSection } from "@/components/HowItWorksSection";
+
+const PIPELINES = [
+  {
+    href: "/pipelines/calculator",
+    name: "Calculator pipeline",
+    tagline: "Parse an expression into an AST. Pay per operator. Settle to each provider.",
+    badges: ["x402 · HTTP 402", "ERC-8183 escrow", "Circle Nanopayments"],
+    color: "var(--accent)",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+        <rect x="4" y="2" width="16" height="20" rx="2" />
+        <path d="M8 6h8M8 10h8M8 14h4" />
+      </svg>
+    ),
+    steps: [
+      "Enter expression like ((3+5)*2-4)/7",
+      "Parser builds AST, counts operators",
+      "HTTP 402 → sign EIP-712 authorization",
+      "Execute → split payment to each operator",
+    ],
+    accent: "rgba(0,212,255,0.08)",
+    border: "rgba(0,212,255,0.2)",
+  },
+  {
+    href: "/pipelines/food-verify",
+    name: "Food verification pipeline",
+    tagline: "Index a food image and eating video. Gemini RAG confirms consumption. Pay three providers.",
+    badges: ["gemini-embedding-2", "RAG · multimodal", "x402 · ERC-8183"],
+    color: "#a78bfa",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
+        <path d="M8 12l3 3 5-5" />
+      </svg>
+    ),
+    steps: [
+      "Upload food image + eating video",
+      "Both indexed via gemini-embedding-2",
+      "HTTP 402 → sign EIP-712 authorization",
+      "Gemini RAG verifies → split to 3 providers",
+    ],
+    accent: "rgba(167,139,250,0.08)",
+    border: "rgba(167,139,250,0.2)",
+  },
+];
+
+export default function Home() {
+  function scrollToPipelines() {
+    document.getElementById("pipelines")?.scrollIntoView({ behavior: "smooth" });
+  }
+
+  return (
+    <main className="min-h-screen">
+      <HeroSection onRunDemo={scrollToPipelines} />
+      <HowItWorksSection />
+
+      {/* ── Pipeline cards ────────────────────────────────────────────────── */}
+      <section id="pipelines" className="py-20 px-6"
+        style={{ borderTop: "1px solid var(--border)" }}>
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} className="mb-12 text-center">
+            <p className="text-xs font-mono mb-3" style={{ color: "var(--accent)" }}>
+              choose a pipeline
+            </p>
+            <h2 className="text-3xl font-bold mb-3">Two live demos</h2>
+            <p className="text-sm max-w-xl mx-auto" style={{ color: "var(--text-secondary)" }}>
+              Each pipeline is a separate route with its own payment flow, execution graph,
+              ERC-8183 lifecycle, and settlement receipt.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {PIPELINES.map((p, i) => (
+              <motion.div key={p.href}
+                initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+                <Link href={p.href} className="block group">
+                  <div className="rounded-2xl overflow-hidden transition-all duration-300 h-full"
+                    style={{
+                      background: "var(--bg-panel)",
+                      border: `1px solid ${p.border}`,
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLDivElement).style.boxShadow = `0 0 40px ${p.color}18`;
+                      (e.currentTarget as HTMLDivElement).style.borderColor = `${p.color}50`;
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLDivElement).style.boxShadow = "none";
+                      (e.currentTarget as HTMLDivElement).style.borderColor = p.border;
+                    }}
+                  >
+                    {/* Card header */}
+                    <div className="p-6 pb-4" style={{ background: p.accent }}>
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="w-12 h-12 rounded-xl flex items-center justify-center"
+                          style={{ background: `${p.color}18`, color: p.color, border: `1px solid ${p.color}30` }}>
+                          {p.icon}
+                        </div>
+                        <span className="text-xs font-mono px-2 py-1 rounded-lg transition-all"
+                          style={{ background: `${p.color}15`, color: p.color }}>
+                          Open →
+                        </span>
+                      </div>
+                      <h3 className="text-lg font-bold mb-2">{p.name}</h3>
+                      <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+                        {p.tagline}
+                      </p>
+                    </div>
+
+                    {/* Badges */}
+                    <div className="px-6 py-3 flex flex-wrap gap-2 border-t border-b"
+                      style={{ borderColor: "var(--border)" }}>
+                      {p.badges.map((b) => (
+                        <span key={b} className="text-xs font-mono px-2 py-0.5 rounded-full"
+                          style={{ background: `${p.color}10`, color: p.color, border: `1px solid ${p.color}25` }}>
+                          {b}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Steps */}
+                    <div className="p-6 space-y-2">
+                      {p.steps.map((step, j) => (
+                        <div key={j} className="flex items-start gap-3">
+                          <span className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-mono flex-shrink-0 mt-0.5"
+                            style={{ background: `${p.color}15`, color: p.color }}>
+                            {j + 1}
+                          </span>
+                          <p className="text-xs" style={{ color: "var(--text-secondary)" }}>{step}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Shared infrastructure note */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ delay: 0.3 }}
+            className="mt-8 rounded-xl p-5"
+            style={{ background: "var(--bg-panel)", border: "1px solid var(--border)" }}>
+            <p className="text-xs font-mono mb-3" style={{ color: "var(--text-muted)" }}>
+              shared infrastructure
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[
+                { label: "Payment", value: "x402 HTTP 402", color: "#fbbf24" },
+                { label: "Signing",  value: "EIP-712 offchain", color: "var(--accent)" },
+                { label: "Escrow",   value: "ERC-8183 jobs",    color: "#a78bfa" },
+                { label: "Settlement", value: "Circle Gateway", color: "#34d399" },
+              ].map((item) => (
+                <div key={item.label}>
+                  <p className="text-xs font-mono mb-0.5" style={{ color: "var(--text-muted)" }}>{item.label}</p>
+                  <p className="text-xs font-medium" style={{ color: item.color }}>{item.value}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <Footer />
+    </main>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="py-12 px-6 text-center" style={{ borderTop: "1px solid var(--border)" }}>
+      <div className="max-w-4xl mx-auto space-y-4">
+        <p className="text-sm font-bold gradient-text">ArcSplit</p>
+        <p className="text-xs" style={{ color: "var(--text-muted)" }}>
+          Pay-per-use middleware on Arc · Multimodal RAG with Gemini
+        </p>
+        <div className="flex justify-center flex-wrap gap-6 text-xs font-mono" style={{ color: "var(--text-muted)" }}>
+          {[
+            { label: "x402 docs", href: "https://docs.cdp.coinbase.com/x402/core-concepts/http-402" },
+            { label: "Circle Nanopayments", href: "https://developers.circle.com/gateway/nanopayments" },
+            { label: "ERC-8183", href: "https://eips.ethereum.org/EIPS/eip-8183" },
+            { label: "gemini-embedding-2", href: "https://cloud.google.com/vertex-ai/generative-ai/docs/embeddings/get-multimodal-embeddings" },
+          ].map((link) => (
+            <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer"
+              className="hover:text-[var(--accent)] transition-colors">
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </footer>
+  );
+}
