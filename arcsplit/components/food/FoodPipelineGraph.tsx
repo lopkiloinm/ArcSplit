@@ -34,6 +34,28 @@ const MEDIA_AST: ASTNode = {
   },
 };
 
+const MEDIA_NODE_LABELS: Record<string, string> = {
+  image: "IMG",
+  "image-meta": "TXT",
+  video: "VID",
+  "video-meta": "TXT",
+  "img-emb": "I-EMB",
+  "vid-emb": "V-EMB",
+  gemini: "RAG",
+};
+
+const MEDIA_TRACE_LABELS: Record<string, string> = {
+  "img-emb": "Gemini Embedding 2 indexed image context",
+  "vid-emb": "Gemini Embedding 2 indexed video context",
+  gemini: "Gemini verifier compared both embeddings and produced verdict",
+};
+
+const MEDIA_COST_BY_NODE: Record<string, string> = {
+  "img-emb": "0.000002",
+  "vid-emb": "0.000003",
+  gemini: "0.000005",
+};
+
 function nodeIdForStep(step: string): string | null {
   if (step === "indexing-image" || step === "index-image") return "img-emb";
   if (step === "indexing-video" || step === "index-video") return "vid-emb";
@@ -93,7 +115,7 @@ export function FoodPipelineGraph({
           operator,
           inputs,
           output,
-          costUSDC: "0.000000",
+          costUSDC: MEDIA_COST_BY_NODE[nodeId] ?? "0.000000",
           payoutTo: "media_pipeline",
         } as ExecutionStep;
       })
@@ -107,6 +129,15 @@ export function FoodPipelineGraph({
       completedNodeIds={completedNodeIds}
       executionTrace={executionTrace}
       animating={animating}
+      headerTitle="media / execution graph"
+      emptyStateText="Media tree will appear here after selecting image and video."
+      legendItems={[
+        { label: "image-indexer", color: "#a78bfa" },
+        { label: "video-indexer", color: "#fbbf24" },
+        { label: "gemini-verifier", color: "#34d399" },
+      ]}
+      nodeLabelsById={MEDIA_NODE_LABELS}
+      traceLabelsByNodeId={MEDIA_TRACE_LABELS}
     />
   );
 }

@@ -106,6 +106,11 @@ interface AstGraphProps {
   completedNodeIds?: Set<string>;
   executionTrace?: ExecutionStep[];
   animating?: boolean;
+  headerTitle?: string;
+  emptyStateText?: string;
+  legendItems?: Array<{ label: string; color: string }>;
+  nodeLabelsById?: Record<string, string>;
+  traceLabelsByNodeId?: Record<string, string>;
 }
 
 export function AstGraph({
@@ -114,6 +119,11 @@ export function AstGraph({
   completedNodeIds = new Set(),
   executionTrace = [],
   animating = false,
+  headerTitle = "ast / execution graph",
+  emptyStateText = "AST will appear here after parsing.",
+  legendItems,
+  nodeLabelsById,
+  traceLabelsByNodeId,
 }: AstGraphProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(600);
@@ -162,11 +172,18 @@ export function AstGraph({
         }}
       >
         <p className="text-sm" style={{ color: "var(--text-muted)" }}>
-          AST will appear here after parsing.
+          {emptyStateText}
         </p>
       </div>
     );
   }
+
+  const computedLegend =
+    legendItems ??
+    (["add", "subtract", "multiply", "divide"] as const).map((op) => ({
+      label: op,
+      color: OP_COLORS[op],
+    }));
 
   return (
     <div
@@ -183,17 +200,17 @@ export function AstGraph({
         style={{ borderColor: "var(--border)" }}
       >
         <span className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>
-          ast / execution graph
+          {headerTitle}
         </span>
         <div className="flex items-center gap-3">
-          {(["add", "subtract", "multiply", "divide"] as const).map((op) => (
-            <div key={op} className="flex items-center gap-1">
+          {computedLegend.map((item) => (
+            <div key={item.label} className="flex items-center gap-1">
               <div
                 className="w-2 h-2 rounded-full"
-                style={{ background: OP_COLORS[op] }}
+                style={{ background: item.color }}
               />
               <span className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>
-                {op}
+                {item.label}
               </span>
             </div>
           ))}
@@ -266,12 +283,14 @@ export function AstGraph({
           {nodes.map(({ id, x, y, node }) => (
             <AstNodeView
               key={id}
+              nodeId={id}
               layoutX={x}
               layoutY={y}
               node={node}
               isActive={activeNodeId === id}
               isCompleted={completedNodeIds.has(id)}
               shouldReduceMotion={shouldReduceMotion ?? false}
+              nodeLabelsById={nodeLabelsById}
             />
           ))}
         </div>
@@ -311,14 +330,20 @@ export function AstGraph({
                   >
                     {OP_SYMBOLS[step.operator]}
                   </span>
-                  <span style={{ color: "var(--text-secondary)" }}>
-                    {step.inputs[0]} {OP_SYMBOLS[step.operator]} {step.inputs[1]} ={" "}
-                    <span style={{ color: "var(--text-primary)" }}>
-                      {Number.isInteger(step.output)
-                        ? step.output
-                        : step.output.toFixed(6)}
+                  {traceLabelsByNodeId?.[step.nodeId] ? (
+                    <span style={{ color: "var(--text-secondary)" }}>
+                      {traceLabelsByNodeId[step.nodeId]}
                     </span>
-                  </span>
+                  ) : (
+                    <span style={{ color: "var(--text-secondary)" }}>
+                      {step.inputs[0]} {OP_SYMBOLS[step.operator]} {step.inputs[1]} ={" "}
+                      <span style={{ color: "var(--text-primary)" }}>
+                        {Number.isInteger(step.output)
+                          ? step.output
+                          : step.output.toFixed(6)}
+                      </span>
+                    </span>
+                  )}
                   <span className="ml-auto" style={{ color: "var(--text-muted)" }}>
                     {step.costUSDC} USDC
                   </span>
@@ -335,26 +360,30 @@ export function AstGraph({
 // ─── Individual Node ──────────────────────────────────────────────────────────
 
 interface AstNodeViewProps {
+  nodeId: string;
   layoutX: number;
   layoutY: number;
   node: ASTNode;
   isActive: boolean;
   isCompleted: boolean;
   shouldReduceMotion: boolean;
+  nodeLabelsById?: Record<string, string>;
 }
 
 function AstNodeView({
+  nodeId,
   layoutX,
   layoutY,
   node,
   isActive,
   isCompleted,
   shouldReduceMotion,
+  nodeLabelsById,
 }: AstNodeViewProps) {
   const isBinary = node.type === "binary";
   const op = isBinary ? (node as BinaryNode).operator : null;
   const color = op ? OP_COLORS[op] : "rgba(255,255,255,0.4)";
-  const symbol = op ? OP_SYMBOLS[op] : String((node as LiteralNode).value);
+  const symbol = nodeLabelsById?.[nodeId] ?? (op ? OP_SYMBOLS[op] : String((node as LiteralNode).value));
 
   return (
     <motion.div
